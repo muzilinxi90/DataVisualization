@@ -1,3 +1,105 @@
+// 轨迹图线路数据
+var coords = [
+    [113.317568, 23.135959],
+    [113.317783, 23.135278],
+    [113.321489, 23.135432],
+    [113.321525, 23.135282],
+    [113.321592, 23.13517],
+    [113.321799, 23.135083],
+    [113.322158, 23.135141],
+    [113.322374, 23.135378],
+    [113.321992, 23.135847],
+    [113.322243, 23.13949],
+    [113.322396, 23.1397],
+    [113.328163, 23.13943],
+    [113.334945, 23.139033],
+    [113.334658, 23.133217],
+    [113.33313, 23.13222],
+    [113.328755, 23.137588]
+];
+
+// 轨迹图关键点数据
+var positionData = [{
+    name: 'XX街',
+    value: [113.317568, 23.135959, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.317783, 23.135278, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.321489, 23.135432, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.321525, 23.135282, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.321592, 23.13517, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.321799, 23.135083, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.322158, 23.135141, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.322374, 23.135378, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.321992, 23.135847, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.322243, 23.13949, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.322396, 23.1397, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.328163, 23.13943, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.334945, 23.139033, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.334658, 23.133217, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.33313, 23.13222, 'otherInfo']
+}, {
+    name: 'XX街',
+    value: [113.328755, 23.137588, 'otherInfo']
+}];
+
+
+/**
+ * 根据路线的全部坐标点计算路线外切矩形的中心点即地图定位的中心点
+ * @param  {二维数组} coords [coords[i][0]为经度，coords[i][1]为维度]
+ * @return {数组}           [中心点坐标]
+ */
+function getCenterPoint(coords) {
+    var centerPoint = [];
+    if (coords.length !== 0) {
+        var minLon = coords[0][0];
+        var maxLon = coords[0][0];
+        var minLat = coords[0][1];
+        var maxLat = coords[0][1];
+        for (var i = 1; i < coords.length; i++) {
+            if (coords[i][0] < minLon) {
+                minLon = coords[i][0];
+            } else if (coords[i][0] > maxLon) {
+                maxLon = coords[i][0];
+            }
+            if (coords[i][1] < minLat) {
+                minLat = coords[i][1];
+            } else if (coords[i][1] > maxLat) {
+                maxLat = coords[i][1];
+            }
+        }
+        centerPoint = [(minLon + maxLon) / 2, (minLat + maxLat) / 2];
+    }
+    return centerPoint;
+}
+
+
 $(function() {
     var chart = echarts.init(document.getElementById('main'));
 
@@ -42,24 +144,7 @@ $(function() {
             },
             data: [{
                 name: '嫌疑人1的逃跑路线',
-                coords: [
-                    [113.317568, 23.135959],
-                    [113.317783, 23.135278],
-                    [113.321489, 23.135432],
-                    [113.321525, 23.135282],
-                    [113.321592, 23.13517],
-                    [113.321799, 23.135083],
-                    [113.322158, 23.135141],
-                    [113.322374, 23.135378],
-                    [113.321992, 23.135847],
-                    [113.322243, 23.13949],
-                    [113.322396, 23.1397],
-                    [113.328163, 23.13943],
-                    [113.334945, 23.139033],
-                    [113.334658, 23.133217],
-                    [113.33313, 23.13222],
-                    [113.328755, 23.137588]
-                ],
+                coords: coords,
                 lineStyle: {
                     normal: {
 
@@ -70,7 +155,7 @@ $(function() {
                 }
             }],
             zlevel: 1,
-            animation: false,
+            animation: false
         }, {
             type: 'effectScatter',
             name: '轨迹结点',
@@ -108,65 +193,14 @@ $(function() {
 
                 }
             },
-            data: [{
-                name: 'XX街',
-                value: [113.317568, 23.135959, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.317783, 23.135278, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.321489, 23.135432, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.321525, 23.135282, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.321592, 23.13517, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.321799, 23.135083, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.322158, 23.135141, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.322374, 23.135378, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.321992, 23.135847, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.322243, 23.13949, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.322396, 23.1397, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.328163, 23.13943, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.334945, 23.139033, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.334658, 23.133217, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.33313, 23.13222, 'otherInfo']
-            }, {
-                name: 'XX街',
-                value: [113.328755, 23.137588, 'otherInfo']
-            }],
+            data: positionData,
             zlevel: 2
         }]
     };
 
     chart.setOption(option);
-    var startPoint = {
-        x: 113.328755,
-        y: 23.135588
-    };
-    var point = new BMap.Point(startPoint.x, startPoint.y);
+    var centerPoint = getCenterPoint(coords);
+    var point = new BMap.Point(centerPoint[0], centerPoint[1]);
     var map = chart.getModel().getComponent('bmap').getBMap();
     map.centerAndZoom(point, 17);
     map.enableScrollWheelZoom(true);
